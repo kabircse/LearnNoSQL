@@ -14,6 +14,14 @@ MongoDB structure comparatively RDBMS:
     Table Join	Embedded Documents
     Primary Key	Primary Key (Default key _id provided by MongoDB itself)
 
+**Type of NoSQL databases:**
+
+    Mainly categorized in 4 types as:
+    1. Key-value pair based: Redis, Memcached, etc.
+    2. Column-based: BigTable, Cassandra,Hbase,etc.
+    3. Graph based: Neo4j,etc.
+    4.Document based: MongoDB, CouchDB,DocumentDB,etc. 
+
 **DataType:**
     
     6 data types as: string, number, date, array, boolean, ObjectId
@@ -393,3 +401,10 @@ projection/show columns as:
             }
         }
     ]);
+
+**Upsert**:
+To add/update the document on filter condition. 
+If filter document is exists it will update the respective values else MongoDB will insert document if not exists.
+
+**Multi:**
+updates multiple documents that meet the query criteria. 
