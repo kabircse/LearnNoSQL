@@ -128,29 +128,32 @@ To connect with mongo using shell:
     
 
 ## Commands
-
-    //show databases
+#### show databases
+  
     show dbs;
     
-    //switch to students database
+#### switch to students database
+  
     use students;
     
-    //drop an existing database
+#### drop an existing database
+  
     db.dropDatabase();
     
-    //create collection
+#### create collection
+  
     db.createCollection(name,options);
     
-    //show collections
+#### show collections
     show collections;
     
-    //drop collection
+#### drop collection
     db.students.drop();
     
-    //empty collection
+#### empty collection
     db.students.remove();
     
-    //insert
+#### insert
     db.students.insert(
         {
             'name': 'Sharif'
@@ -167,28 +170,28 @@ Indexing can't used in queries which use −
 3. $where clause
 
 
-    //createIndex by ascending as 1
+#### createIndex by ascending as 1
     db.students.createIndex(
         {
             name : 1
         }
     );
     
-    //drop index
+#### drop index
     db.students.dropIndex(
         {
             name : 1
         }
-    );  
-
-    // Text Indexe/Text Search:
+    );
+      
+####  Text Indexe/Text Search:
     db.posts.createIndex(
         {
             'content': 'text'
         }
     );
 
-    // search all the posts content as world word as:
+####  search all the posts content as world word as:
     db.posts.find(
         {
             $text: {
@@ -197,7 +200,7 @@ Indexing can't used in queries which use −
         }
     );
 
-    // regrex:
+####  regrex:
     search all the posts content containing as world
     db.posts.find(
         {
@@ -210,7 +213,7 @@ Indexing can't used in queries which use −
     
 ## Operations:
     
-    //insert:
+#### insert:
     db.students.insert({
         name: 'Asadur Rahman',
         age: 28,
@@ -218,7 +221,7 @@ Indexing can't used in queries which use −
         class: 7
     })
     
-    //update:
+#### update:
     db.students.update({
         name: 'Asadur Rahman',
     },
@@ -227,7 +230,8 @@ Indexing can't used in queries which use −
         name: 'Asif Miah'
         }
     }
-    )
+    );
+    
     db.students.update(
         { 
             name: 'Asif Miah', 
@@ -237,20 +241,23 @@ Indexing can't used in queries which use −
                 classes: ['seven','amiray','std'] 
             } 
         } 
-    )
+    );
     
+#### Find    
     db.students.find(
         {
             name: 'Asif Miah'
         }
-    )
+    );
+    
     db.students.find(
         {
             age: {
                 $gt: 20
             }
         }
-    )
+    );
+    
     db.students.find(
         {
             classes:{
@@ -261,10 +268,41 @@ Indexing can't used in queries which use −
         {
             name: 1
         }
-    )
+    );
     
-    //1 -> descending, -1 -> ascending    
-    //for json format output: pretty()    
+#### foreach():
+       db.posts.find().forEach(function(doc) {
+         print("Blog Post: " + doc.title)
+       });
+       
+#### Increment Field ($inc):
+       db.posts.update({ title: 'Post Two' },
+       {
+         $inc: {
+           likes: 5
+         }
+       });
+       
+#### Rename Field:
+       db.posts.update({ title: 'Post Two' },
+       {
+         $rename: {
+           likes: 'views'
+         }
+       });
+       
+#### Find By Element in Array ($elemMatch)
+       db.posts.find({
+         comments: {
+            $elemMatch: {
+              user: 'Mary Williams'
+              }
+           }
+         }
+       );
+    
+  // 1 -> descending, -1 -> ascending    
+ // for json format output: pretty()    
 
 
 ### Projection:
@@ -283,14 +321,50 @@ projection/show columns as:
     //show only name and age column
     //if name: 0, hide name column
     
+#### Delete one    
     db.students.deleteOne(
         {
             age: 18
         }
     );
+#### DeleteMany: 
+    deleteMany() -> multiple document delete.    
     
-    deleteMany() -> multiple document delte.    
-    
+#### Operators:    
+**Comparison:**
+1. $eq: Matches values that are equal to a specified value.
+2. $gt: Matches values that are greater than a specified value.
+3. $gte: Matches values that are greater than or equal to a specified value.
+4. $in: Matches any of the values specified in an array.
+5. $lt: Matches values that are less than a specified value.
+6. $lte: Matches values that are less than or equal to a specified value.
+7. $ne: Matches all values that are not equal to a specified value.
+8. $nin: Matches none of the values specified in an array.
+
+**Logical:**
+1. $and: Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.
+2. $not: Inverts the effect of a query expression and returns documents that do not match the query expression.
+3. $nor: Joins query clauses with a logical NOR returns all documents that fail to match both clauses.
+4. $or: Joins query clauses with a logical OR returns all documents that match the conditions of either clause.
+
+**Element:**
+1. $exists: Matches documents that have the specified field.
+2. $type: Selects documents if a field is of the specified type.
+
+**Evaluation:**
+1. $expr: Allows use of aggregation expressions within the query language.
+2. $jsonSchema: Validate documents against the given JSON Schema.
+3. $mod: Performs a modulo operation on the value of a field and selects documents with a specified result.
+4. $regex: Selects documents where values match a specified regular expression.
+5. $text: Performs text search.
+6. $where: Matches documents that satisfy a JavaScript expression.
+
+**Array:**
+1. $all: Matches arrays that contain all elements specified in the query.
+2. $elemMatch: Selects documents if element in the array field matches all the specified $elemMatch conditions.
+3. $size: Selects documents if the array field is a specified size.
+
+
     //getter then operator
     db.students.find(
         {
